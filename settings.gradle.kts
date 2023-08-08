@@ -1,1 +1,1 @@
-rootProject.name = "demoplugin"
+rootProject.name = "gofolderror"
