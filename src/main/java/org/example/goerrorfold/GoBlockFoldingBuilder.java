@@ -1,4 +1,4 @@
-package org.example.gofolderror;
+package org.example.goerrorfold;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.folding.FoldingBuilder;
@@ -27,11 +27,16 @@ public class GoBlockFoldingBuilder implements FoldingBuilder {
             String a = matcher.group(1);
             String t1= matcher.group("t1");
             String t2= matcher.group("t2");
-            String r = matcher.group("v");
-            int ss =  matcher.end(2);
-            int ee = matcher.end(0);
             if(a.equals(t1) || a.equals(t2)){
-                lx.add(new FoldingDescriptor(root,new TextRange( ss,ee), null, " ! "+ r + " "));
+                String r = matcher.group("v");
+                int ss =  matcher.end(2);
+                int ee = matcher.end(0);
+                if(r.substring(0,6).equals("return")){
+                    r = " ? " + r.substring(6).trim() + " ⤴";
+                }else{
+                    r = " ? " + r.trim();
+                }
+                lx.add(new FoldingDescriptor(root,new TextRange( ss,ee), null, r));
             }
         }
 

@@ -1,4 +1,4 @@
-goland 插件. 折叠错误处理代码 <br>
+goland 插件. 折叠错误处理代码 <br> 
 
 before:<br>
 <pre>
@@ -9,5 +9,5 @@ if e != nil {
 </pre>
 after:<br>
 <pre>
-e := method() ! return e
+e := method() ? return e
 </pre>

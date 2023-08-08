@@ -1,1 +1,1 @@
-rootProject.name = "gofolderror"
+rootProject.name = "goerrorfold"
