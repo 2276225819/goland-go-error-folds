@@ -23,9 +23,10 @@
     </pre>
     after:<br>
     <pre>
-    e := method() ! return e
+    e := method() ? e ⤴
     </pre>
   ]]></description>
+    <vendor url="https://github.com/2276225819/goland-go-error-folds">2276225819</vendor>
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
