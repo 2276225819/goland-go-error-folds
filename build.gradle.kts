@@ -3,8 +3,8 @@ plugins {
     id("org.jetbrains.intellij") version "1.8.0"
 }
 
-group = "com.example"
-version = "1.0-SNAPSHOT"
+group = "com.q2276225819"
+version = "1.0.2"
 
 repositories {
     mavenCentral()
