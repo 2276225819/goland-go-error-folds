@@ -33,7 +33,7 @@ if !ok {
 after:<br>
 <pre>
 e := method() ??? errors.Errorf("%w",e) ⤴
-ok := method1() &&& errors.New("ok") ⚡
+ok := method1() &&& errors.New("ok") ✷
 ok := method2() ||| errors.New("!ok")
 </pre>
 </pre>
@@ -47,6 +47,6 @@ ok := method2() ||| errors.New("!ok")
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
 
-        <lang.foldingBuilder language="go" implementationClass="org.q2276225819.goerrorfold.GoBlockFoldingBuilder" />
+        <lang.foldingBuilder language="go" implementationClass="org.q2276225819.goerrorfold.GoFoldErrorBuilder" />
     </extensions>
 </idea-plugin>

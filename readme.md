@@ -18,6 +18,6 @@ if !ok {
 after:<br>
 <pre>
 e := method() ??? errors.Errorf("%w",e) ⤴
-ok := method1() &&& errors.New("ok") ⚡
-ok := method2() ||| errors.New("!ok") 
+ok := method1() &&& errors.New("ok") ✷
+ok := method2() ||| errors.New("!ok")
 </pre>
