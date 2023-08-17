@@ -22,7 +22,7 @@ public class GoFoldErrorBuilder implements FoldingBuilder {
 
         Pattern pattern = Pattern.compile(
                 "(?<var1>\\S+)\\s+:?=(?<stm>[^\\r\\n]+)[\\r\\n]+"
-                        +"[^\\S\\r\\n]+if (?<when>!?(?<var2>\\S+)(?: != nil| == nil)?) [{][\\r\\n]"
+                        +"[^\\S\\r\\n]+if (?<when>!?(?<var2>\\S+)(?: != nil| == nil)?) [{]"
         );
         Matcher matcher = pattern.matcher(txt);
         List<FoldingDescriptor> lx = new ArrayList<>();
