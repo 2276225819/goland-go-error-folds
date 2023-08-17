@@ -20,33 +20,31 @@ public class GoFoldErrorBuilder implements FoldingBuilder {
 
         String txt = document.getText();
 
-        Pattern pattern = Pattern.compile( "(\\S+)\\s+:?=([^\\r\\n]{0,120})[\\r\\n]+"
-                +"\\s+(?:if (?<t1>\\S+) != nil |if (?<t2>!?\\S+) )[{][\\r\\n]"
-                +"\\s+(?<then>[^\\r\\n]*|[^\\r\\n]+[\\r\\n]+\\s+(?:continue|break))[\\r\\n]+"
-                +"\\s+[}](?=[\\r\\n])");
+        Pattern pattern = Pattern.compile(
+                "(?<var1>\\S+)\\s+:?=(?<stm>[^\\r\\n]+)[\\r\\n]+"
+                        +"[^\\S\\r\\n]+if (?<when>!?(?<var2>\\S+)(?: != nil| == nil)?) [{][\\r\\n]"
+        );
         Matcher matcher = pattern.matcher(txt);
         List<FoldingDescriptor> lx = new ArrayList<>();
         while (matcher.find()) {
-            String a = matcher.group(1);
-            String t1= matcher.group("t1");
-            String t2= matcher.group("t2");
-            if(a.equals(t1) || a.equals(t2)|| (t2!=null && a.equals(t2.substring(1))) ){
-                String r = matcher.group("then");
-                String t = a.equals(t1)?" ??? ":(t2.charAt(0)=='!'?" ||| ":" &&& ");
-                if(r.startsWith("return")){
-                    r = r.substring(6).trim() + " ⤴";
-                }else if(r.startsWith("panic")){
-                    r = r.substring(6,r.length()-1-1).trim() +  " ✷";
-                }else if(r.endsWith("continue")){
-                    r = r.substring(0,r.length()-8).trim() +  " ↰";
-                }else if(r.endsWith("break")){
-                    r = r.substring(0,r.length()-5).trim() +  " ↲";
+            String a = matcher.group("var1");
+            String b= matcher.group("var2");
+            String when = matcher.group("when");
+            if(a.equals(b)){
+                if(when.equals("!"+a)){
+                    when=" else ";
+                }else if(when.equals(a)){
+                    when=" then ";
+                }else if(when.equals(a+" == nil")){
+                    when=" guard ";
+                }else if(when.equals(a+" != nil")){
+                    when=" catch ";
                 }else{
-                    r = r.trim();
+                    continue;
                 }
-                int ss =  matcher.end(2);
-                int ee = matcher.end(0);
-                lx.add(new FoldingDescriptor(root,new TextRange(ss,ee), null, t + r));
+                int ss =  matcher.end("stm");
+                int ee = matcher.end("when")+1;
+                lx.add(new FoldingDescriptor(root,new TextRange(ss,ee), null,when));
             }
         }
 
