@@ -44,7 +44,7 @@ ok := method2() else {
 </pre>
 one line returns/panics:<br>
 <pre>
-e := method() or : errors.Errorf("%w",e) ⤴
+e := method() catch : errors.Errorf("%w",e) ⤴
 ok := method1() then : errors.New("ok") ✷
 ok := method2() else {
     errors.New("!ok")
@@ -55,6 +55,7 @@ ok := method2() else {
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.plugins.go</depends>
 
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->

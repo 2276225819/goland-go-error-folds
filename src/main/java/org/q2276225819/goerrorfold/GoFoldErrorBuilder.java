@@ -17,35 +17,35 @@ public class GoFoldErrorBuilder implements FoldingBuilder {
     @NotNull
     @Override
     public FoldingDescriptor [] buildFoldRegions(@NotNull ASTNode root, @NotNull Document document) {
-
+        List<FoldingDescriptor> lx = new ArrayList<>();
         String txt = document.getText();
 
-        Pattern pattern = Pattern.compile(
-                "(?<var1>\\S+)\\s+:?=(?<stm>[^\\r\\n]+)[\\r\\n]+"
-                        +"[^\\S\\r\\n]+if (?<when>!?(?<var2>\\S+)(?: != nil| == nil)?) [{]"
+        Pattern pattern = Pattern.compile("[\\r\\n]\\s+(var |\\S+, )*"
+                + "(?<var1>\\S+)\\s+:?=(?<stm>[^\\r\\n]+)[\\r\\n]+"
+                + "[^\\S\\r\\n]+"
+                + "if (?<when>[^\\r\\n]+) [{]"
         );
         Matcher matcher = pattern.matcher(txt);
-        List<FoldingDescriptor> lx = new ArrayList<>();
         while (matcher.find()) {
-            String a = matcher.group("var1");
-            String b= matcher.group("var2");
+            String var1 = matcher.group("var1");
             String when = matcher.group("when");
-            if(a.equals(b)){
-                if(when.equals("!"+a)){
-                    when=" else ";
-                }else if(when.equals(a)){
-                    when=" then ";
-                }else if(when.equals(a+" == nil")){
-                    when=" guard ";
-                }else if(when.equals(a+" != nil")){
-                    when=" catch ";
-                }else{
-                    continue;
-                }
-                int ss =  matcher.end("stm");
-                int ee = matcher.end("when")+1;
-                lx.add(new FoldingDescriptor(root,new TextRange(ss,ee), null,when));
+            int ss = matcher.end("stm");
+            int ee = matcher.end("when") + 1;
+            if (when.equals(var1 + " == nil")) {
+                when = " empty ";
+            } else if (when.equals(var1 + " != nil")) {
+                when = " catch ";
+            } else if (when.equals("!" + var1)) {
+                when = " else ";
+            } else if (when.equals(var1)) {
+                when = " then ";
+            } else if (when.endsWith("(" + var1 + ")")){
+                when = " ?";
+                ee = matcher.start("when") - 1;
+            } else {
+                continue;
             }
+            lx.add(new FoldingDescriptor(root, new TextRange(ss, ee), null, when));
         }
 
         return lx.toArray(FoldingDescriptor[]::new);
