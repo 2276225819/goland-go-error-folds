@@ -35,12 +35,8 @@ public class GoFoldErrorBuilder implements FoldingBuilder {
                 when = " empty ";
             } else if (when.equals(var1 + " != nil")) {
                 when = " catch ";
-            } else if (when.equals("!" + var1)) {
-                when = " else ";
-            } else if (when.equals(var1)) {
-                when = " then ";
-            } else if (when.endsWith("(" + var1 + ")")){
-                when = " ?";
+            } else if (when.endsWith("(" + var1 + ")") || when.startsWith(var1) || when.startsWith("!" + var1)) {
+                when = " when";
                 ee = matcher.start("when") - 1;
             } else {
                 continue;
