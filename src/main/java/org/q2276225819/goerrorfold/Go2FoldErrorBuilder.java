@@ -64,6 +64,19 @@ public class Go2FoldErrorBuilder implements FoldingBuilder {
                 }
             }
         }
+        {
+            Pattern pattern = Pattern.compile("[\\r\\n]\\s+"
+                    +"(var |\\S+, )*(?<var1>\\S+)(?<stm>[^\\r\\n]+)[\\r\\n]+"
+                    + "[^\\S\\r\\n]+"
+                    + "defer (?<when>[^\\r\\n]+)"
+            );
+            Matcher matcher = pattern.matcher(txt);
+            while (matcher.find()) {
+                int ss = matcher.end("stm");
+                int ee = matcher.start("when") - 1;
+                lx.add(new FoldingDescriptor(root, new TextRange(ss, ee), null, " defer "));
+            }
+        }
         return lx.toArray(FoldingDescriptor[]::new);
     }
 
