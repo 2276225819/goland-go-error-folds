@@ -44,6 +44,6 @@ e := method() catch : errors.Errorf("%w",e) ⤴
     <extensions defaultExtensionNs="com.intellij">
 
         <lang.foldingBuilder language="go" implementationClass="org.q2276225819.goerrorfold.GoFoldErrorBuilder" />
-        <lang.foldingBuilder language="go" implementationClass="org.q2276225819.goerrorfold.Go2FoldErrorBuilder" />
+        <lang.foldingBuilder language="go" implementationClass="org.q2276225819.goerrorfold.Go3FoldErrorBuilder" />
     </extensions>
 </idea-plugin>
